@@ -188,8 +188,14 @@ if (typeof window !== 'undefined') {
       opts.success?.({ model: 'Mock Device', system: 'Browser', version: '1.0.0' })),
     exitMiniApp: createBridgeMethod('exitMiniApp', (_opts: any) =>
       window.alert('[MockBridge] exitMiniApp called')),
-    confirmBeforeExit: createBridgeMethod('confirmBeforeExit', (opts: any) =>
-      opts.success?.({ confirm: window.confirm(opts.content ?? 'Thoát?') })),
+    confirmBeforeExit: createBridgeMethod('confirmBeforeExit', (opts: any) => {
+      console.info(`[MockBridge] confirmBeforeExit set to: ${opts.enable}, message: ${opts.message}`);
+      // Giả lập: Nếu enable = true thì hiện alert để người dùng biết là đã kích hoạt thành công
+      if (opts.enable) {
+        window.alert(`[Mock] Đã bật xác nhận khi thoát.\nLời nhắn: ${opts.message}`);
+      }
+      opts.success?.({});
+    }),
 
     // Settings / Permissions
     getSetting: createBridgeMethod('getSetting', (opts: any) =>

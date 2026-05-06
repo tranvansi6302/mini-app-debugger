@@ -59,32 +59,76 @@ const ApiScreen: React.FC = () => {
   const JsonView = ({ data }: { data: any }) => {
     if (data === undefined || data === null) return null;
 
-    const formatValue = (val: any) => {
+    const renderValue = (val: any, level = 0, suffix = ''): React.ReactNode => {
+      const indent = level * 16;
+
+      if (val === null) return <span><span className="text-gray-400">null</span>{suffix}</span>;
+      
       if (typeof val === 'string') {
-        // Cắt bớt nếu chuỗi quá dài (vd: Base64)
-        const isLong = val.length > 100;
-        const displayVal = isLong ? `${val.substring(0, 50)}... [${val.length} chars]` : val;
-        return <span className="text-green-600">"{displayVal}"</span>;
+        // Phát hiện chuỗi dài hoặc Base64 (thường không có khoảng trắng)
+        const isBase64 = val.startsWith('data:') || (val.length > 60 && !val.includes(' '));
+        const isLong = val.length > 80;
+        
+        if (isBase64 || isLong) {
+          const displayVal = `${val.substring(0, 30)}...${val.substring(val.length - 10)}`;
+          return (
+            <span className="text-green-600 italic break-all">
+              "{displayVal}" 
+              <span className="text-[9px] bg-green-50 px-1 ml-1 rounded text-green-700 not-italic">
+                {val.length} chars
+              </span>
+              <span className="text-slate-500 not-italic">{suffix}</span>
+            </span>
+          );
+        }
+        return <span className="text-green-600 break-all">"{val}"<span className="text-slate-500">{suffix}</span></span>;
       }
-      if (typeof val === 'number') return <span className="text-blue-600">{val}</span>;
-      if (typeof val === 'boolean') return <span className="text-purple-600">{val.toString()}</span>;
-      return <span>{JSON.stringify(val)}</span>;
+
+      if (typeof val === 'number') return <span><span className="text-blue-600">{val}</span><span className="text-slate-500">{suffix}</span></span>;
+      if (typeof val === 'boolean') return <span><span className="text-purple-600">{val.toString()}</span><span className="text-slate-500">{suffix}</span></span>;
+
+      if (Array.isArray(val)) {
+        if (val.length === 0) return <span>[]{suffix}</span>;
+        return (
+          <div className="flex flex-col">
+            <span>[</span>
+            <div style={{ paddingLeft: 10 }}>
+              {val.map((item, i) => (
+                <div key={i} className="flex items-start">
+                  <div className="flex-1 min-w-0">{renderValue(item, level + 1, i < val.length - 1 ? ',' : '')}</div>
+                </div>
+              ))}
+            </div>
+            <span>]{suffix}</span>
+          </div>
+        );
+      }
+
+      if (typeof val === 'object') {
+        const entries = Object.entries(val);
+        if (entries.length === 0) return <span>{"{}"}{suffix}</span>;
+        return (
+          <div className="flex flex-col">
+            <span>{"{"}</span>
+            <div style={{ paddingLeft: 10 }}>
+              {entries.map(([k, v], i) => (
+                <div key={k} className="flex items-start">
+                  <span className="text-orange-400 shrink-0">"{k}":&nbsp;</span>
+                  <div className="flex-1 min-w-0">{renderValue(v, level + 1, i < entries.length - 1 ? ',' : '')}</div>
+                </div>
+              ))}
+            </div>
+            <span>{"}"}{suffix}</span>
+          </div>
+        );
+      }
+
+      return <span>{JSON.stringify(val)}{suffix}</span>;
     };
 
     return (
-      <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-100 font-mono text-[11px] overflow-x-auto">
-        <div className="flex flex-col gap-1">
-          {typeof data === 'object' && !Array.isArray(data) ? (
-            Object.entries(data).map(([key, val]) => (
-              <div key={key} className="flex gap-2">
-                <span className="text-red-500 shrink-0">"{key}":</span>
-                <span className="break-all">{formatValue(val)}</span>
-              </div>
-            ))
-          ) : (
-            <div className="text-gray-700 break-all">{formatValue(data)}</div>
-          )}
-        </div>
+      <div className="mt-2 p-2.5 bg-slate-900 rounded-lg border border-slate-800 font-mono text-[10px] text-slate-300 leading-normal overflow-hidden">
+        {renderValue(data)}
       </div>
     );
   };

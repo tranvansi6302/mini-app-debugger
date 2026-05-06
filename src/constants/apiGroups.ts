@@ -158,7 +158,7 @@ export const API_GROUPS: ApiGroup[] = [
     apis: [
       {
         id: 'showToast',
-        name: '[WebView] showToast',
+        name: 'showToast',
         desc: 'Hiển thị thông báo Toast.',
         fn: () => apisAsync.showToast({
           content: '[WebView] Thông báo quan trọng!',
@@ -236,7 +236,7 @@ export const API_GROUPS: ApiGroup[] = [
     apis: [
       {
         id: 'chooseImage',
-        name: '[WebView] chooseImage',
+        name: 'chooseImage',
         desc: 'Chọn hoặc chụp ảnh từ điện thoại.',
         fn: () => apisAsync.chooseImage({
           count: 1,
@@ -254,7 +254,7 @@ export const API_GROUPS: ApiGroup[] = [
       },
       {
         id: 'previewImage',
-        name: '[WebView] previewImage',
+        name: 'previewImage',
         desc: 'Xem ảnh toàn màn hình.',
         fn: () => apisAsync.previewImage({
           urls: [
@@ -370,7 +370,7 @@ export const API_GROUPS: ApiGroup[] = [
     apis: [
       {
         id: 'getLocation',
-        name: '[WebView] getLocation',
+        name: 'getLocation',
         desc: 'Lấy tọa độ GPS (latitude, longitude) hiện tại.',
         fn: () => apisAsync.getLocation({ type: 1 }),
       },
@@ -382,7 +382,7 @@ export const API_GROUPS: ApiGroup[] = [
       },
       {
         id: 'makePhoneCall',
-        name: '[WebView] makePhoneCall',
+        name: 'makePhoneCall',
         desc: 'Mở ứng dụng gọi điện với số hotline 19001234.',
         fn: () => apisAsync.makePhoneCall({ number: '19001234' }),
       },
@@ -394,7 +394,7 @@ export const API_GROUPS: ApiGroup[] = [
       },
       {
         id: 'addCalendarEvent',
-        name: '[WebView] addCalendarEvent',
+        name: 'addCalendarEvent',
         desc: 'Thêm sự kiện vào lịch điện thoại.',
         fn: () => {
           const now = new Date();
@@ -460,7 +460,7 @@ export const API_GROUPS: ApiGroup[] = [
       },
       {
         id: 'shareApp',
-        name: '[WebView] shareApp',
+        name: 'shareApp',
         desc: 'Chia sẻ Mini App với người khác.',
         fn: () => apisAsync.shareApp({
           title: '[WebView] Ứng dụng Quản lý EJSC',
@@ -472,7 +472,7 @@ export const API_GROUPS: ApiGroup[] = [
   },
   // ── HomeBooking (Bổ sung) ────────────────────────────────────────────────
   {
-    name: 'HomeBooking (Bổ sung)',
+    name: 'Update 05/05/2026',
     apis: [
       {
         id: 'getUserLocation',
@@ -482,7 +482,7 @@ export const API_GROUPS: ApiGroup[] = [
       },
       {
         id: 'openNativeMap',
-        name: '[WebView] openNativeMap',
+        name: 'openNativeMap',
         desc: 'Mở ứng dụng bản đồ gốc (Google/Apple Maps).',
         fn: () => apisAsync.openNativeMap({ lat: 21.0285, lng: 105.8542, label: 'Hồ Hoàn Kiếm' }),
       },
@@ -516,7 +516,7 @@ export const API_GROUPS: ApiGroup[] = [
       },
       {
         id: 'openInAppBrowser',
-        name: '[WebView] openInAppBrowser',
+        name: 'openInAppBrowser',
         desc: 'Mở trình duyệt web bên trong app.',
         fn: () => apisAsync.openInAppBrowser({
           url: 'https://365teams.vn',
@@ -525,37 +525,5 @@ export const API_GROUPS: ApiGroup[] = [
       },
     ],
   },
-  {
-    name: 'Custom UI Demos',
-    apis: [
-      {
-        id: 'customPickerDemo',
-        name: '[Web Custom] Chọn ảnh theo phong cách riêng',
-        desc: 'Sử dụng giao diện Web/ActionSheet để gọi trực tiếp chức năng Native.',
-        fn: () => {
-          return new Promise((resolve) => {
-            apisAsync.showActionSheet({
-              title: 'Chọn ảnh đại diện của bạn',
-              items: ['Chụp ảnh mới', 'Chọn từ thư viện'],
-              success: (res) => {
-                if (res.index === 0) {
-                  // Gọi thẳng Camera
-                  apisAsync.captureImage({
-                    success: (data) => apisAsync.showToast({ content: 'Đã chụp: ' + data.path, type: 'success' })
-                  });
-                } else if (res.index === 1) {
-                  // Gọi thẳng Album
-                  apisAsync.chooseImage({
-                    sourceType: ['album'],
-                    success: (data) => apisAsync.showToast({ content: 'Đã chọn: ' + data.tempFilePaths.length + ' ảnh', type: 'success' })
-                  });
-                }
-              },
-              complete: (res) => resolve(res)
-            });
-          });
-        }
-      },
-    ]
-  }
+
 ];

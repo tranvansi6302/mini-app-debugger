@@ -129,15 +129,7 @@ const OverviewScreen: React.FC = () => {
             </div>
           </Card>
 
-          <Card className="p-4 rounded-2xl border border-slate-100 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
-            <div className="flex items-center gap-2 mb-2">
-              <BookOpen size={16} className="text-red-600" />
-              <Text variant="base" weight="bold">Nội dung đã dùng component chung</Text>
-            </div>
-            <Text variant="sub" className="text-slate-500 leading-relaxed">
-              Trang Overview đã được flow theo component system: StandardPage + Card + Text để đồng bộ với About và UI/UX.
-            </Text>
-          </Card>
+
         </div>
       </div>
     </StandardPage>

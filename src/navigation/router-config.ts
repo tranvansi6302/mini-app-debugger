@@ -47,13 +47,13 @@ export interface IRouterConfig {
 
 export const getRouterConfig = (): IRouterConfig => ({
   pages: [
-    {
-      pathname: '/',
-      Component: HomeScreen,
-      animation: 'none',
-      appBar: { type: 'custom' },
-      showAppBar: false
-    },
+    // {
+    //   pathname: '/',
+    //   Component: HomeScreen,
+    //   animation: 'none',
+    //   appBar: { type: 'custom' },
+    //   showAppBar: false
+    // },
     {
       pathname: '/overview',
       Component: OverviewScreen,
@@ -92,7 +92,7 @@ export const getRouterConfig = (): IRouterConfig => ({
   ],
   bottomTabBar: {
     items: [
-      { id: 'home', name: 'Trang chủ', path: '/', icon: 'home' },
+      // { id: 'home', name: 'Trang chủ', path: '/', icon: 'home' },
       { id: 'overview', name: 'Overview', path: '/overview', icon: 'grid' },
       { id: 'api', name: 'APIs', path: '/api', icon: 'code' },
       { id: 'ui-ux', name: 'UI/UX', path: '/ui-ux', icon: 'sparkles' },

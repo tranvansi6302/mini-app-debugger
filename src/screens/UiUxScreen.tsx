@@ -105,24 +105,7 @@ const UiUxScreen: React.FC = () => {
           </div>
         </Card>
 
-        {/* CUSTOM UI DEMO */}
-        <Card className="p-4 rounded-2xl border-2 border-dashed border-blue-100 bg-blue-50/30 mb-6">
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles size={16} className="text-blue-600" />
-            <Text variant="base" weight="bold" className="text-blue-900">Custom Picker UI (Web)</Text>
-          </div>
-          <Text variant="caption" color="sub" block className="mb-4">
-            Đây là giao diện hoàn toàn bằng React, gọi API Native "nguyên tử" để thực hiện.
-          </Text>
-          <Button 
-            theme="brand" 
-            block 
-            className="shadow-lg shadow-blue-200"
-            onClick={() => setIsCustomPickerOpen(true)}
-          >
-            Mở Custom Picker
-          </Button>
-        </Card>
+
       </div>
 
       {/* --- OVERLAY INSTANCES --- */}
@@ -182,8 +165,8 @@ const UiUxScreen: React.FC = () => {
         </SheetFooter>
       </Sheet>
 
-      <CustomImagePicker 
-        open={isCustomPickerOpen} 
+      <CustomImagePicker
+        open={isCustomPickerOpen}
         onClose={() => setIsCustomPickerOpen(false)}
         onSuccess={(data) => {
           console.log('Custom Picker Success:', data);

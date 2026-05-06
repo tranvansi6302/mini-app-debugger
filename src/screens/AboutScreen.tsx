@@ -35,7 +35,7 @@ const AboutScreen: React.FC = () => {
   return (
     <StandardPage title="About Mini App" onRefresh={handleRefresh}>
       <div className="flex flex-col gap-6 p-6">
-        <section className="rounded-3xl bg-linear-to-br from-red-600 to-rose-500 p-5 text-white shadow-[0_10px_30px_rgba(220,38,38,0.3)]">
+        <section className="rounded-3xl bg-[#F4A261] p-5 text-white shadow-[0_10px_30px_rgba(244,162,97,0.3)]">
           <div className="flex items-start justify-between gap-3 mb-3">
             <div>
               <Text variant="sub" color="white" className="opacity-90 block mb-1">
@@ -53,7 +53,7 @@ const AboutScreen: React.FC = () => {
             Nền tảng khởi đầu giúp team triển khai mini app nhanh, đồng bộ design và ổn định khi mở rộng.
           </Text>
           <div className="mt-3 inline-flex px-2.5 py-1 rounded-lg bg-white/20 border border-white/20">
-            <Text variant="tiny" weight="bold" color="white">Version 1.0.3</Text>
+            <Text variant="tiny" weight="bold" color="white">Version 1.0.1</Text>
           </div>
         </section>
 
@@ -62,25 +62,16 @@ const AboutScreen: React.FC = () => {
           <div className="space-y-2">
             {productHighlights.map(item => (
               <div key={item} className="flex items-start gap-2">
-                <span className="mt-[6px] w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
+                <span className="mt-[6px] w-1.5 h-1.5 rounded-full bg-[#F4A261] shrink-0" />
                 <Text variant="sub" className="text-slate-600 leading-relaxed">{item}</Text>
               </div>
             ))}
           </div>
 
-          <div className="mt-4 pt-4 border-t border-slate-100 grid gap-2">
-            <div className="flex items-center gap-2.5">
-              <Mail size={16} className="text-slate-400" />
-              <Text variant="sub" className="text-slate-600">support@ejsc.example.com</Text>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <Globe size={16} className="text-slate-400" />
-              <Text variant="sub" className="text-slate-600">www.ejsc-miniapp.com</Text>
-            </div>
-          </div>
+
         </Card>
 
-        <div className="grid grid-cols-3 gap-3">
+        {/* <div className="grid grid-cols-3 gap-3">
           <Button size='sm' theme="neutral" block startIcon={<Code2 size={16} />}>
             Source
           </Button>
@@ -92,10 +83,10 @@ const AboutScreen: React.FC = () => {
               Login
             </Button>
           </Link>
-        </div>
+        </div> */}
 
         <Text variant="sub" color="sub" className="text-center opacity-60 mt-2">
-          © 2024 EJSC Technology. All rights reserved.
+          Copyright 2026 365Team. All rights reserved.
         </Text>
       </div>
     </StandardPage>
