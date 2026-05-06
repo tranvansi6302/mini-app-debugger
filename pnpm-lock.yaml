@@ -12,11 +12,11 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5
       ejsc-ma-component:
-        specifier: ^1.0.2
-        version: 1.0.2(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5))
+        specifier: ^1.0.5
+        version: 1.0.5(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5))
       ejsc-ma-router:
-        specifier: ^1.0.2
-        version: 1.0.2(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5))
+        specifier: ^1.0.3
+        version: 1.0.3(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5))
       framer-motion:
         specifier: ^12.38.0
         version: 12.38.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -1700,14 +1700,14 @@ packages:
     resolution: {integrity: sha512-KrFlPMr3OmizJ18hNqxnBlXCKQPPTI7UT5DVCz/Oltp/MuZ+FBAdjotxFjLcCEj3NReqSQtt/bDB+FwYQbX48A==}
     hasBin: true
 
-  ejsc-ma-component@1.0.2:
-    resolution: {integrity: sha512-oho59HG8TNkPP3J3erCZ3goAJPEmclvlBehQIBlxb6nBqvtaFem9IE2Kh/DeceuAw0rI2SmCD7ixlWWmVW606w==}
+  ejsc-ma-component@1.0.5:
+    resolution: {integrity: sha512-Qi8ItUCJMlq8oJaBxRSZeOHiM40KmbmDkcYP0ZcIParIgwwG+Y6HHcbVSrrMIqzcFwiKKD7roPxBrR/5z8Z2ZA==}
     peerDependencies:
       react: '>=19.0.0'
       react-dom: '>=19.0.0'
 
-  ejsc-ma-router@1.0.2:
-    resolution: {integrity: sha512-3wwoZRWxcIlJfadRwsps4MaD3pdAG2MB3onbCNuSE65PdKMGmFyo692/9lEK2K8ASSiVCwfggyjAqnF/2mHXWw==}
+  ejsc-ma-router@1.0.3:
+    resolution: {integrity: sha512-IycrpfGTXSFTamH8jnd8TkDJqlpKVLCb3nKYE38fkoN9itfdLJvS/7qkh0GEPOvYz1WeptSzL4McsaBEZ5koxQ==}
     engines: {node: '>=18'}
     peerDependencies:
       react: '>=19.0.0'
@@ -4316,12 +4316,12 @@ snapshots:
       - utf-8-validate
       - yaml
 
-  ejsc-ma-component@1.0.2(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5)):
+  ejsc-ma-component@1.0.5(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5)):
     dependencies:
       classnames: 2.5.1
       clsx: 2.1.1
-      ejsc-ma-api: link:../ejsc-ma-api
-      ejsc-ma-router: link:../ejsc-ma-router
+      ejsc-ma-api: 1.0.5
+      ejsc-ma-router: 1.0.3(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5))
       framer-motion: 12.38.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       lucide-react: 0.473.0(react@19.2.5)
       nanoid: 5.1.11
@@ -4335,7 +4335,7 @@ snapshots:
       - immer
       - use-sync-external-store
 
-  ejsc-ma-router@1.0.2(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5)):
+  ejsc-ma-router@1.0.3(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(use-sync-external-store@1.6.0(react@19.2.5)):
     dependencies:
       classnames: 2.5.1
       framer-motion: 12.38.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
