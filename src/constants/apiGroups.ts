@@ -464,7 +464,7 @@ export const API_GROUPS: ApiGroup[] = [
         desc: 'Chia sẻ Mini App với người khác.',
         fn: () => apisAsync.shareApp({ 
           title: '[WebView] Ứng dụng Quản lý EJSC',
-          description: '[WebView] Hệ thống điều hành doanh nghiệp thông minh.',
+          desc: '[WebView] Hệ thống điều hành doanh nghiệp thông minh.',
           url: 'https://ejsc.365teams.vn'
         }),
       },
@@ -526,14 +526,15 @@ export const API_GROUPS: ApiGroup[] = [
     ],
   },
   {
-    group: 'Custom UI Demos',
+    name: 'Custom UI Demos',
     apis: [
       {
         id: 'customPickerDemo',
         name: '[Web Custom] Chọn ảnh theo phong cách riêng',
         desc: 'Sử dụng giao diện Web/ActionSheet để gọi trực tiếp chức năng Native.',
         fn: () => {
-          apisAsync.showActionSheet({
+          return new Promise((resolve) => {
+            apisAsync.showActionSheet({
             title: 'Chọn ảnh đại diện của bạn',
             items: ['Chụp ảnh mới', 'Chọn từ thư viện'],
             success: (res) => {
@@ -549,10 +550,12 @@ export const API_GROUPS: ApiGroup[] = [
                   success: (data) => apisAsync.showToast({ content: 'Đã chọn: ' + data.tempFilePaths.length + ' ảnh', type: 'success' })
                 });
               }
-            }
+            },
+            complete: (res) => resolve(res)
           });
-        }
-      },
-    ]
-  }
+        });
+      }
+    },
+  ]
+}
 ];
