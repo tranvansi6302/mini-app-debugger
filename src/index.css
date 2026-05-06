@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/**
+ * SAFELIST FOR COMPONENT TEXT VARIANTS:
+ * text-ejsc-h1 text-ejsc-h2 text-ejsc-h3 text-ejsc-h4 text-ejsc-base text-ejsc-sub text-ejsc-caption text-ejsc-tiny
+ */
+
+/**
+ * MY APP - GLOBAL STYLES & LAYOUT
+ */
+
+@theme {
+  --ejsc-brand-hex: #F4A261;
+  --ejsc-radius-unit: 8px;
+
+  --color-ejsc-brand: var(--ejsc-brand-hex);
+  --color-ejsc-bg-page: #ffffff;
+  --color-ejsc-bg-card: #ffffff;
+  --color-ejsc-text-main: #1c1c1e;
+
+  --text-ejsc-h1: 2.4rem;
+  --text-ejsc-h2: 2.0rem;
+  --text-ejsc-h3: 1.7rem;
+  --text-ejsc-h4: 1.5rem;
+  --text-ejsc-base: 1.35rem;
+  --text-ejsc-sub: 1.25rem;
+  --text-ejsc-caption: 1.1rem;
+  --text-ejsc-tiny: 1.0rem;
+
+  --font-size-ejsc-h1: 2.4rem;
+  --font-size-ejsc-h2: 2.0rem;
+  --font-size-ejsc-h3: 1.7rem;
+  --font-size-ejsc-h4: 1.5rem;
+  --font-size-ejsc-base: 1.35rem;
+  --font-size-ejsc-sub: 1.25rem;
+  --font-size-ejsc-caption: 1.1rem;
+  --font-size-ejsc-tiny: 1.0rem;
+}
+
+@layer base {
+  html {
+    font-size: 62.5%;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  body,
+  #root {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-ejsc-bg-page);
+    color: var(--color-ejsc-text-main);
+    font-family: 'Inter', -apple-system, sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* KHÔI PHỤC LAYOUT FRAMEWORK VỚI ĐỘ ƯU TIÊN CAO */
+  .app-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .app-main {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    min-height: 0;
+  }
+
+  .page-content {
+    position: absolute;
+    inset: 0;
+    background: var(--color-ejsc-bg-page);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .page-content::-webkit-scrollbar {
+    display: none;
+  }
+}
