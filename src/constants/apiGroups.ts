@@ -13,7 +13,7 @@ import type { ApiGroup } from '../types';
 
 /** Tất cả nhóm API hiển thị trong Bridge API Debugger */
 export const API_GROUPS: ApiGroup[] = [
-  // ── System ──────────────────────────────────────────────────────────────
+  // ── System ────────────────────────────────────────────────────────────
   {
     name: 'System',
     apis: [
@@ -160,7 +160,7 @@ export const API_GROUPS: ApiGroup[] = [
         id: 'showToast',
         name: '[WebView] showToast',
         desc: 'Hiển thị thông báo Toast.',
-        fn: () => apisAsync.showToast({ 
+        fn: () => apisAsync.showToast({
           content: '[WebView] Thông báo quan trọng!',
           type: 'success',
           position: 'top',
@@ -238,8 +238,8 @@ export const API_GROUPS: ApiGroup[] = [
         id: 'chooseImage',
         name: '[WebView] chooseImage',
         desc: 'Chọn hoặc chụp ảnh từ điện thoại.',
-        fn: () => apisAsync.chooseImage({ 
-          count: 1, 
+        fn: () => apisAsync.chooseImage({
+          count: 1,
           sourceType: ['camera', 'album'],
           title: '[WebView] Cập nhật ảnh đại diện',
           fontSize: 13,
@@ -462,7 +462,7 @@ export const API_GROUPS: ApiGroup[] = [
         id: 'shareApp',
         name: '[WebView] shareApp',
         desc: 'Chia sẻ Mini App với người khác.',
-        fn: () => apisAsync.shareApp({ 
+        fn: () => apisAsync.shareApp({
           title: '[WebView] Ứng dụng Quản lý EJSC',
           desc: '[WebView] Hệ thống điều hành doanh nghiệp thông minh.',
           url: 'https://ejsc.365teams.vn'
@@ -518,7 +518,7 @@ export const API_GROUPS: ApiGroup[] = [
         id: 'openInAppBrowser',
         name: '[WebView] openInAppBrowser',
         desc: 'Mở trình duyệt web bên trong app.',
-        fn: () => apisAsync.openInAppBrowser({ 
+        fn: () => apisAsync.openInAppBrowser({
           url: 'https://365teams.vn',
           errorMessage: '[WebView] Không thể kết nối tới máy chủ 365Teams.'
         }),
@@ -535,27 +535,27 @@ export const API_GROUPS: ApiGroup[] = [
         fn: () => {
           return new Promise((resolve) => {
             apisAsync.showActionSheet({
-            title: 'Chọn ảnh đại diện của bạn',
-            items: ['Chụp ảnh mới', 'Chọn từ thư viện'],
-            success: (res) => {
-              if (res.index === 0) {
-                // Gọi thẳng Camera
-                apisAsync.captureImage({
-                  success: (data) => apisAsync.showToast({ content: 'Đã chụp: ' + data.path, type: 'success' })
-                });
-              } else if (res.index === 1) {
-                // Gọi thẳng Album
-                apisAsync.chooseImage({
-                  sourceType: ['album'],
-                  success: (data) => apisAsync.showToast({ content: 'Đã chọn: ' + data.tempFilePaths.length + ' ảnh', type: 'success' })
-                });
-              }
-            },
-            complete: (res) => resolve(res)
+              title: 'Chọn ảnh đại diện của bạn',
+              items: ['Chụp ảnh mới', 'Chọn từ thư viện'],
+              success: (res) => {
+                if (res.index === 0) {
+                  // Gọi thẳng Camera
+                  apisAsync.captureImage({
+                    success: (data) => apisAsync.showToast({ content: 'Đã chụp: ' + data.path, type: 'success' })
+                  });
+                } else if (res.index === 1) {
+                  // Gọi thẳng Album
+                  apisAsync.chooseImage({
+                    sourceType: ['album'],
+                    success: (data) => apisAsync.showToast({ content: 'Đã chọn: ' + data.tempFilePaths.length + ' ảnh', type: 'success' })
+                  });
+                }
+              },
+              complete: (res) => resolve(res)
+            });
           });
-        });
-      }
-    },
-  ]
-}
+        }
+      },
+    ]
+  }
 ];
