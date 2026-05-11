@@ -1,529 +1,357 @@
 /**
  * @file constants/apiGroups.ts
- * @description Định nghĩa tất cả các nhóm API và entries cho Bridge API Debugger.
- * Tách dữ liệu ra khỏi UI component để dễ bảo trì và mở rộng.
- *
- * Để thêm API mới:
- *   1. Chọn nhóm phù hợp hoặc tạo nhóm mới.
- *   2. Thêm một object `ApiEntry` vào mảng `apis` của nhóm.
+ * @description Định nghĩa tất cả các nhóm API cho Bridge API Debugger.
  */
 
 import { apisAsync } from 'ejsc-ma-api';
 import type { ApiGroup } from '../types';
 
-/** Tất cả nhóm API hiển thị trong Bridge API Debugger */
 export const API_GROUPS: ApiGroup[] = [
-  // ── System ────────────────────────────────────────────────────────────
+  // ── Hệ Thống (System) ──────────────────────────────────────────────────
   {
     name: 'System',
     apis: [
       {
         id: 'getSystemInfo',
         name: 'getSystemInfo',
-        desc: 'Thông tin phần cứng & hệ điều hành.',
+        desc: 'Thông tin thiết thiết bị & hệ điều hành.',
         fn: () => apisAsync.getSystemInfo(),
+      },
+      {
+        id: 'getAppLanguage',
+        name: 'getAppLanguage',
+        desc: 'Lấy ngôn ngữ hiện tại của ứng dụng.',
+        fn: (p: any) => (window as any).ejsc.getAppLanguage(p),
       },
       {
         id: 'exitMiniApp',
         name: 'exitMiniApp',
-        desc: 'Thoát Mini App về Super App.',
+        desc: 'Thoát Mini App.',
         fn: () => apisAsync.exitMiniApp(),
       },
       {
         id: 'confirmBeforeExit',
         name: 'confirmBeforeExit',
-        desc: 'Hiển thị xác nhận trước khi thoát.',
-        fn: () => apisAsync.confirmBeforeExit({ enable: true, message: 'Lưu thay đổi trước khi thoát?' }),
+        desc: 'Xác nhận trước khi thoát.',
+        params: JSON.stringify({ enable: true, message: 'Lưu thay đổi trước khi thoát?' }, null, 2),
+        fn: (p) => apisAsync.confirmBeforeExit(p),
+      },
+      {
+        id: 'triggerHapticFeedback',
+        name: 'hapticFeedback',
+        desc: 'Rung phản hồi (success/error/heavy).',
+        params: JSON.stringify({ style: 'success' }, null, 2),
+        fn: (p) => apisAsync.triggerHapticFeedback(p),
       },
     ],
   },
 
-  // ── Navigation Bar ───────────────────────────────────────────────────────
+  // ── Giao Diện & Thông Báo (UI & Dialogs) ────────────────────────────────
   {
-    name: 'Navigation Bar',
+    name: 'UI & Dialogs',
     apis: [
       {
         id: 'setNavigationBar',
         name: 'setNavigationBar',
-        desc: 'Tùy chỉnh tiêu đề & màu sắc thanh điều hướng.',
-        fn: () => apisAsync.setNavigationBar({ title: 'Mini App Pro', titleBarColor: '#5856d6' }),
+        desc: 'Tùy chỉnh thanh điều hướng.',
+        params: JSON.stringify({ title: 'Mini App Pro', backgroundColor: '#5856d6', frontColor: '#ffffff' }, null, 2),
+        fn: (p) => apisAsync.setNavigationBar(p),
+      },
+      {
+        id: 'showToast',
+        name: 'showToast',
+        desc: 'Thông báo Toast.',
+        params: JSON.stringify({ content: 'Thành công!', type: 'success', duration: 3000 }, null, 2),
+        fn: (p) => apisAsync.showToast(p),
+      },
+      {
+        id: 'alert',
+        name: 'alert',
+        desc: 'Hộp thoại thông báo.',
+        params: JSON.stringify({ title: 'Bridge Test', content: 'Nội dung thông báo' }, null, 2),
+        fn: (p) => apisAsync.alert(p),
+      },
+      {
+        id: 'confirm',
+        name: 'confirm',
+        desc: 'Hộp thoại xác nhận.',
+        params: JSON.stringify({ title: 'Xác nhận', content: 'Bạn có chắc chắn?', confirmButtonText: 'Có', cancelButtonText: 'Không' }, null, 2),
+        fn: (p) => apisAsync.confirm(p),
+      },
+      {
+        id: 'prompt',
+        name: 'prompt',
+        desc: 'Hộp thoại nhập liệu.',
+        params: JSON.stringify({ title: 'Nhập tên', placeholder: 'Họ và tên...', okButtonText: 'Gửi' }, null, 2),
+        fn: (p) => apisAsync.prompt(p),
+      },
+      {
+        id: 'showActionSheet',
+        name: 'showActionSheet',
+        desc: 'Menu lựa chọn.',
+        params: JSON.stringify({ title: 'Chọn ảnh', items: ['Máy ảnh', 'Thư viện'], destructiveBtnIndex: 1 }, null, 2),
+        fn: (p) => apisAsync.showActionSheet(p),
+      },
+      {
+        id: 'showLoading',
+        name: 'showLoading / hideLoading',
+        desc: 'Hiện spinner trong 2 giây.',
+        fn: async () => {
+          await apisAsync.showLoading({ content: 'Đang tải...' });
+          await new Promise(r => setTimeout(r, 2000));
+          return apisAsync.hideLoading();
+        },
       },
     ],
   },
 
-  // ── Navigation / DeepLink ────────────────────────────────────────────────
+  // ── Điều Hướng & Liên Kết (Navigation) ──────────────────────────────────
   {
-    name: 'Navigation / DeepLink',
+    name: 'Navigation & Links',
     apis: [
       {
         id: 'openDeeplink',
         name: 'openDeeplink',
-        desc: 'Mở màn hình nội bộ của Super App.',
-        fn: () => apisAsync.openDeeplink({
-          url: 'ejsc://home',
-          title: '[WebView] Trang Chủ Hệ Thống',
-          description: '[WebView] Chào mừng bạn quay lại màn hình điều khiển trung tâm.'
-        }),
+        desc: 'Mở link nội bộ Super App.',
+        params: JSON.stringify({ url: 'ejsc://home', title: 'Trang chủ' }, null, 2),
+        fn: (p) => apisAsync.openDeeplink(p),
       },
       {
         id: 'openPublicDeepLink',
         name: 'openPublicDeepLink',
-        desc: 'Mở URL công khai trong browser hoặc app.',
-        fn: () => apisAsync.openPublicDeepLink({ url: 'https://www.google.com' }),
+        desc: 'Mở URL bằng browser máy.',
+        params: JSON.stringify({ url: 'https://google.com' }, null, 2),
+        fn: (p) => apisAsync.openPublicDeepLink(p),
       },
       {
         id: 'shareApp',
         name: 'shareApp',
-        desc: 'Chia sẻ ứng dụng qua hệ thống share sheet.',
-        fn: () =>
-          apisAsync.shareApp({
-            title: '[WebView] EJSC App',
-            desc: '[WebView] Thử Mini App xịn này đi!',
-            url: 'https://picsum.photos/200',
-            path: 'https://picsum.photos/200'
-          }),
+        desc: 'Chia sẻ Mini App.',
+        params: JSON.stringify({ title: 'EJSC App', desc: 'Thử ngay!', url: 'https://ejsc.vn' }, null, 2),
+        fn: (p) => apisAsync.shareApp(p),
       },
       {
         id: 'openNativeStore',
         name: 'openNativeStore',
-        desc: 'Mở trang ứng dụng trên App Store / Play Store.',
-        fn: () =>
-          apisAsync.openNativeStore({
-            appleStoreId: '123456789',
-            googlePlayId: 'com.ejsc.app',
-          }),
+        desc: 'Mở App Store / Play Store.',
+        params: JSON.stringify({ appleStoreId: '123', googlePlayId: 'com.ejsc' }, null, 2),
+        fn: (p) => apisAsync.openNativeStore(p),
+      },
+      {
+        id: 'openInAppBrowser',
+        name: 'openInAppBrowser',
+        desc: 'Mở trình duyệt trong app.',
+        params: JSON.stringify({ url: 'https://365teams.vn' }, null, 2),
+        fn: (p) => apisAsync.openInAppBrowser(p),
       },
     ],
   },
 
-  // ── Storage ──────────────────────────────────────────────────────────────
+  // ── Dữ Liệu & Bộ Nhớ (Storage) ─────────────────────────────────────────
   {
-    name: 'Storage',
+    name: 'Storage & Data',
     apis: [
       {
         id: 'setStorage',
         name: 'setStorage',
-        desc: 'Lưu dữ liệu mẫu với key "test_key".',
-        fn: () => apisAsync.setStorage({ key: 'test_key', data: 'Dữ liệu mẫu từ Mini App' }),
+        desc: 'Lưu dữ liệu thường.',
+        params: JSON.stringify({ key: 'test', data: 'Hello' }, null, 2),
+        fn: (p) => apisAsync.setStorage(p),
       },
       {
         id: 'getStorage',
         name: 'getStorage',
-        desc: 'Đọc dữ liệu với key "test_key".',
-        fn: () => apisAsync.getStorage({ key: 'test_key' }),
+        desc: 'Đọc dữ liệu thường.',
+        params: JSON.stringify({ key: 'test' }, null, 2),
+        fn: (p) => apisAsync.getStorage(p),
       },
       {
         id: 'removeStorage',
         name: 'removeStorage',
-        desc: 'Xóa key "test_key" khỏi storage.',
-        fn: () => apisAsync.removeStorage({ key: 'test_key' }),
+        desc: 'Xóa một key.',
+        params: JSON.stringify({ key: 'test' }, null, 2),
+        fn: (p) => apisAsync.removeStorage(p),
       },
       {
         id: 'clearStorage',
         name: 'clearStorage',
-        desc: 'Xóa toàn bộ dữ liệu storage của Mini App.',
+        desc: 'Xóa toàn bộ storage.',
         fn: () => apisAsync.clearStorage(),
+      },
+      {
+        id: 'setSecureStorage',
+        name: 'setSecureStorage',
+        desc: 'Lưu vào vùng bảo mật.',
+        params: JSON.stringify({ key: 'token', data: 'secret_123' }, null, 2),
+        fn: (p) => apisAsync.setSecureStorage(p),
+      },
+      {
+        id: 'getSecureStorage',
+        name: 'getSecureStorage',
+        desc: 'Đọc từ vùng bảo mật.',
+        params: JSON.stringify({ key: 'token' }, null, 2),
+        fn: (p) => apisAsync.getSecureStorage(p),
       },
       {
         id: 'getStorageInfo',
         name: 'getStorageInfo',
-        desc: 'Xem danh sách keys & dung lượng đã dùng.',
+        desc: 'Thống kê bộ nhớ.',
         fn: () => apisAsync.getStorageInfo(),
       },
     ],
   },
 
-  // ── Clipboard ────────────────────────────────────────────────────────────
+  // ── Đa Phương Tiện & Mạng (Media) ──────────────────────────────────────
   {
-    name: 'Clipboard',
+    name: 'Media & Network',
     apis: [
+      {
+        id: 'chooseImage',
+        name: 'chooseImage',
+        desc: 'Chọn ảnh từ máy.',
+        params: JSON.stringify({ count: 1, sourceType: ['album', 'camera'] }, null, 2),
+        fn: (p) => apisAsync.chooseImage(p),
+      },
+      {
+        id: 'chooseMedia',
+        name: 'chooseMedia',
+        desc: 'Chọn ảnh hoặc video.',
+        params: JSON.stringify({ count: 1, mediaType: ['image', 'video'] }, null, 2),
+        fn: (p) => apisAsync.chooseMedia(p),
+      },
+      {
+        id: 'captureImage',
+        name: 'captureImage',
+        desc: 'Chụp ảnh trực tiếp.',
+        fn: () => apisAsync.captureImage(),
+      },
+      {
+        id: 'previewImage',
+        name: 'previewImage',
+        desc: 'Xem ảnh full screen.',
+        params: JSON.stringify({ urls: ['https://picsum.photos/800/1200'], current: 0 }, null, 2),
+        fn: (p) => apisAsync.previewImage(p),
+      },
+      {
+        id: 'saveImage',
+        name: 'saveImage',
+        desc: 'Lưu ảnh vào máy.',
+        params: JSON.stringify({ url: 'https://picsum.photos/400' }, null, 2),
+        fn: (p) => apisAsync.saveImage(p),
+      },
+      {
+        id: 'request',
+        name: 'request',
+        desc: 'Gọi HTTP GET.',
+        params: JSON.stringify({ url: 'https://jsonplaceholder.typicode.com/todos/1', method: 'GET' }, null, 2),
+        fn: (p) => apisAsync.request(p),
+      },
+      {
+        id: 'downloadFile',
+        name: 'downloadFile',
+        desc: 'Tải file về máy.',
+        params: JSON.stringify({ url: 'https://picsum.photos/400' }, null, 2),
+        fn: (p) => apisAsync.downloadFile(p),
+      },
+    ],
+  },
+
+  // ── Định Vị & Thiết Bị (Location) ──────────────────────────────────────
+  {
+    name: 'Location & Device',
+    apis: [
+      {
+        id: 'getLocation',
+        name: 'getLocation',
+        desc: 'Tọa độ GPS hiện tại.',
+        params: JSON.stringify({ type: 1 }, null, 2),
+        fn: (p) => apisAsync.getLocation(p),
+      },
+      {
+        id: 'getUserLocation',
+        name: 'getUserLocation',
+        desc: 'Tọa độ & Địa chỉ chi tiết.',
+        params: JSON.stringify({ enableHighAccuracy: true }, null, 2),
+        fn: (p) => apisAsync.getUserLocation(p),
+      },
+      {
+        id: 'openNativeMap',
+        name: 'openNativeMap',
+        desc: 'Mở Google/Apple Maps.',
+        params: JSON.stringify({ lat: 21.0285, lng: 105.8542, label: 'Hà Nội' }, null, 2),
+        fn: (p) => apisAsync.openNativeMap(p),
+      },
+      {
+        id: 'scan',
+        name: 'scanQR',
+        desc: 'Quét mã QR.',
+        fn: () => apisAsync.scan(),
+      },
+      {
+        id: 'bioMetrics',
+        name: 'bioMetrics',
+        desc: 'Vân tay / FaceID.',
+        params: JSON.stringify({ content: 'Xác thực' }, null, 2),
+        fn: (p) => apisAsync.bioMetrics.localAuth(p),
+      },
+      {
+        id: 'makePhoneCall',
+        name: 'makePhoneCall',
+        desc: 'Gọi điện thoại.',
+        params: JSON.stringify({ number: '19001234' }, null, 2),
+        fn: (p) => apisAsync.makePhoneCall(p),
+      },
       {
         id: 'setClipboard',
         name: 'setClipboard',
-        desc: 'Copy văn bản vào clipboard của hệ thống.',
-        fn: () => apisAsync.setClipboard({ text: 'Hello from EJSC Mini App!' }),
+        desc: 'Copy văn bản.',
+        params: JSON.stringify({ text: 'Hello EJSC' }, null, 2),
+        fn: (p) => apisAsync.setClipboard(p),
       },
       {
         id: 'getClipboard',
         name: 'getClipboard',
-        desc: 'Đọc nội dung hiện tại từ clipboard.',
+        desc: 'Dán văn bản.',
         fn: () => apisAsync.getClipboard(),
       },
     ],
   },
 
-  // ── UI Dialogs ───────────────────────────────────────────────────────────
+  // ── Tài Khoản & Quyền (Auth) ──────────────────────────────────────────
   {
-    name: 'UI Dialogs',
+    name: 'Auth & Permissions',
     apis: [
       {
-        id: 'showToast',
-        name: 'showToast',
-        desc: 'Hiển thị thông báo Toast.',
-        fn: () => apisAsync.showToast({
-          content: '[WebView] Thông báo quan trọng!',
-          type: 'success',
-          position: 'top',
-          duration: 3000
-        }),
+        id: 'getUserInfo',
+        name: 'getUserInfo',
+        desc: 'Thông tin người dùng.',
+        fn: () => apisAsync.getUserInfo(),
       },
-      {
-        id: 'alert',
-        name: 'alert',
-        desc: 'Hộp thoại thông báo với một nút OK.',
-        fn: () =>
-          apisAsync.alert({ title: '[WebView] Bridge Debugger', content: '[WebView] Đây là thông báo từ Native Bridge!' }),
-      },
-      {
-        id: 'confirm',
-        name: 'confirm',
-        desc: 'Hộp thoại xác nhận với hai nút Có/Không.',
-        fn: () =>
-          apisAsync.confirm({ content: '[WebView] Bạn có chắc chắn muốn thực hiện hành động này?', title: '[WebView] Xác nhận', confirmButtonText: '[WebView] Có', cancelButtonText: '[WebView] Không' }),
-      },
-      {
-        id: 'prompt',
-        name: 'prompt',
-        desc: 'Hộp thoại nhập liệu văn bản từ người dùng.',
-        fn: () => apisAsync.prompt({ title: '[WebView] Nhập tên của bạn', placeholder: 'Tên...', okButtonText: '[WebView] Có', cancelButtonText: '[WebView] Không' }),
-      },
-      {
-        id: 'showActionSheet',
-        name: 'showActionSheet',
-        desc: 'Menu lựa chọn trượt lên từ dưới màn hình.',
-        fn: () =>
-          apisAsync.showActionSheet({
-            title: '[WebView] Chọn hành động',
-            items: ['[WebView] Chụp ảnh', '[WebView] Chọn từ thư viện', '[WebView] Xóa ảnh'],
-            destructiveBtnIndex: 2,
-          }),
-      },
-      {
-        id: 'showLoading',
-        name: 'showLoading / hideLoading',
-        desc: 'Hiện loading spinner trong 2 giây rồi tự đóng.',
-        fn: async () => {
-          await apisAsync.showLoading({ content: 'Đang xử lý...' });
-          await new Promise((r) => setTimeout(r, 2000));
-          return apisAsync.hideLoading();
-        },
-      },
-      {
-        id: 'callbackTest',
-        name: 'Callback Pattern Test',
-        desc: 'Test gọi API với success, fail và complete callbacks.',
-        fn: () => {
-          return new Promise((resolve) => {
-            apisAsync.alert({
-              title: 'Callback Test',
-              content: 'Vui lòng nhấn OK để test callback.',
-              success: (data) => console.log('✅ Success callback triggered with:', data),
-              fail: (err) => console.log('❌ Fail callback triggered with:', err),
-              complete: (res) => {
-                console.log('🏁 Complete callback triggered with:', res);
-                resolve({ success: true, data: { info: 'Check console for callback logs', ...res } });
-              }
-            });
-          });
-        },
-      },
-    ],
-  },
-
-  // ── Media ────────────────────────────────────────────────────────────────
-  {
-    name: 'Media',
-    apis: [
-      {
-        id: 'chooseImage',
-        name: 'chooseImage',
-        desc: 'Chọn hoặc chụp ảnh từ điện thoại.',
-        fn: () => apisAsync.chooseImage({
-          count: 1,
-          sourceType: ['camera', 'album'],
-          title: '[WebView] Cập nhật ảnh đại diện',
-          fontSize: 13,
-          cancelText: '[WebView] Đóng'
-        }),
-      },
-      {
-        id: 'chooseMedia',
-        name: 'chooseMedia',
-        desc: 'Chọn ảnh hoặc video từ bộ nhớ thiết bị.',
-        fn: () => apisAsync.chooseMedia({ count: 9, mediaType: ['image', 'video'], albumText: "[WebView] Chọn từ thư viện", cameraText: "[WebView] Chụp ảnh" }),
-      },
-      {
-        id: 'previewImage',
-        name: 'previewImage',
-        desc: 'Xem ảnh toàn màn hình.',
-        fn: () => apisAsync.previewImage({
-          urls: [
-            'https://picsum.photos/800/1200',
-            'https://picsum.photos/1200/800'
-          ],
-          current: 0,
-          title: '[WebView] Album Ảnh Sự Kiện'
-        }),
-      },
-      {
-        id: 'saveImage',
-        name: 'saveImage',
-        desc: 'Tải và lưu ảnh mẫu vào thư viện thiết bị.',
-        fn: () => apisAsync.saveImage({ url: 'https://picsum.photos/800/600' }),
-      },
-      {
-        id: 'compressImage',
-        name: 'compressImage',
-        desc: 'Nén ảnh với chất lượng 50% (test với path giả lập).',
-        fn: () =>
-          apisAsync.compressImage({
-            filePaths: ['/test/path.jpg'],
-            options: { quality: 50 },
-          }),
-      },
-    ],
-  },
-
-  // ── Network ──────────────────────────────────────────────────────────────
-  {
-    name: 'Network',
-    apis: [
-      {
-        id: 'request',
-        name: 'request',
-        desc: 'Gọi HTTP GET API mẫu từ JSONPlaceholder.',
-        fn: () =>
-          apisAsync.request({
-            url: 'https://jsonplaceholder.typicode.com/todos/1',
-            method: 'GET',
-          }),
-      },
-      {
-        id: 'downloadFile',
-        name: 'downloadFile',
-        desc: 'Tải file từ internet về bộ nhớ thiết bị.',
-        fn: () =>
-          apisAsync.downloadFile({
-            url: 'https://raw.githubusercontent.com/flutter/website/master/src/images/flutter-logo-sharing.png',
-          }),
-      },
-    ],
-  },
-
-  // ── Auth & User ──────────────────────────────────────────────────────────
-  {
-    name: 'Auth & User',
-    apis: [
       {
         id: 'getSetting',
         name: 'getSetting',
-        desc: 'Kiểm tra trạng thái các quyền hiện tại.',
+        desc: 'Kiểm tra các quyền đã cấp.',
         fn: () => apisAsync.getSetting(),
       },
       {
         id: 'authorize',
         name: 'authorize',
-        desc: 'Hiện popup yêu cầu cấp quyền camera.',
-        fn: () => apisAsync.authorize({ scope: 'scope.camera' }),
+        desc: 'Yêu cầu cấp quyền.',
+        params: JSON.stringify({ scope: 'scope.camera' }, null, 2),
+        fn: (p) => apisAsync.authorize(p),
       },
       {
         id: 'openSetting',
         name: 'openSetting',
-        desc: 'Mở trang cài đặt quyền của Mini App.',
+        desc: 'Mở trang cài đặt quyền.',
         fn: () => apisAsync.openSetting(),
       },
       {
         id: 'openAppSetting',
         name: 'openAppSetting',
-        desc: 'Mở cài đặt ứng dụng trong hệ thống (Android/iOS).',
+        desc: 'Mở cài đặt hệ thống.',
         fn: () => apisAsync.openAppSetting(),
       },
-      {
-        id: 'getUserInfo',
-        name: 'getUserInfo',
-        desc: 'Lấy thông tin hồ sơ người dùng đăng nhập.',
-        fn: () => apisAsync.getUserInfo(),
-      },
-      {
-        id: 'getAuthCode',
-        name: 'getAuthCode',
-        desc: 'Lấy mã xác thực OAuth từ Super App.',
-        fn: () => apisAsync.getAuthCode(),
-      },
-      {
-        id: 'bioMetrics',
-        name: 'bioMetrics.localAuth',
-        desc: 'Xác thực vân tay hoặc khuôn mặt (Face ID).',
-        fn: () => apisAsync.bioMetrics.localAuth({
-          content: '[WebView] Xác thực để tiếp tục',
-          title: '[WebView] Xác nhận Vân tay',
-          hint: '[WebView] Vui lòng quét vân tay của bạn',
-          cancelText: '[WebView] Để sau'
-        }),
-      },
     ],
   },
-
-  // ── Device ───────────────────────────────────────────────────────────────
-  {
-    name: 'Device',
-    apis: [
-      {
-        id: 'getLocation',
-        name: 'getLocation',
-        desc: 'Lấy tọa độ GPS (latitude, longitude) hiện tại.',
-        fn: () => apisAsync.getLocation({ type: 1 }),
-      },
-      {
-        id: 'scan',
-        name: 'scanQR',
-        desc: 'Mở camera để quét mã QR hoặc barcode.',
-        fn: () => apisAsync.scan({ title: '[WebView] Quét mã QR của bạn' }),
-      },
-      {
-        id: 'makePhoneCall',
-        name: 'makePhoneCall',
-        desc: 'Mở ứng dụng gọi điện với số hotline 19001234.',
-        fn: () => apisAsync.makePhoneCall({ number: '19001234' }),
-      },
-      {
-        id: 'choosePhoneContact',
-        name: 'choosePhoneContact',
-        desc: 'Mở danh bạ để người dùng chọn một liên hệ.',
-        fn: () => apisAsync.choosePhoneContact(),
-      },
-      {
-        id: 'addCalendarEvent',
-        name: 'addCalendarEvent',
-        desc: 'Thêm sự kiện vào lịch điện thoại.',
-        fn: () => {
-          const now = new Date();
-          const later = new Date(now.getTime() + 60 * 60 * 1000);
-          return apisAsync.addCalendarEvent({
-            title: '[WebView] Họp dự án EJSC',
-            description: '[WebView] Thảo luận về lộ trình phát triển quý 2.',
-            location: '[WebView] Văn phòng 365Teams',
-            startDate: now.toISOString(),
-            endDate: later.toISOString(),
-            allDay: false
-          });
-        },
-      },
-    ],
-  },
-  // ── Navigation & UI ──────────────────────────────────────────────────────
-  {
-    name: 'Navigation & UI',
-    apis: [
-      {
-        id: 'setNavTitle',
-        name: 'setNavigationBar (Title)',
-        desc: 'Đổi tiêu đề thanh điều hướng.',
-        fn: () => apisAsync.setNavigationBar({ title: 'Mini App New Title' }),
-      },
-      {
-        id: 'setNavColor',
-        name: 'setNavigationBar (Color)',
-        desc: 'Đổi màu nền và màu chữ.',
-        fn: () => apisAsync.setNavigationBar({
-          backgroundColor: '#F4A261',
-          frontColor: '#ffffff'
-        }),
-      },
-      {
-        id: 'hideNav',
-        name: 'setNavigationBar (Hide)',
-        desc: 'Ẩn thanh tiêu đề (Full screen).',
-        fn: () => apisAsync.setNavigationBar({ visible: false, immersive: true }),
-      },
-      {
-        id: 'showNav',
-        name: 'setNavigationBar (Show)',
-        desc: 'Hiện lại thanh tiêu đề chuẩn.',
-        fn: () => apisAsync.setNavigationBar({
-          visible: true,
-          immersive: false,
-          title: '365 Mini App Debugger',
-          backgroundColor: '#5856d6',
-          frontColor: '#ffffff'
-        }),
-      },
-      {
-        id: 'openDeeplink',
-        name: 'openDeeplink',
-        desc: 'Mở một liên kết nội bộ hoặc deeplink.',
-        fn: () => apisAsync.openDeeplink({
-          url: 'ejsc://native/page',
-          title: '[WebView] Màn hình Chi tiết',
-          description: '[WebView] Nội dung này được gửi từ WebView qua Bridge.'
-        }),
-      },
-      {
-        id: 'shareApp',
-        name: 'shareApp',
-        desc: 'Chia sẻ Mini App với người khác.',
-        fn: () => apisAsync.shareApp({
-          title: '[WebView] Ứng dụng Quản lý EJSC',
-          desc: '[WebView] Hệ thống điều hành doanh nghiệp thông minh.',
-          url: 'https://ejsc.365teams.vn'
-        }),
-      },
-    ],
-  },
-  // ── HomeBooking (Bổ sung) ────────────────────────────────────────────────
-  {
-    name: 'Update 05/05/2026',
-    apis: [
-      {
-        id: 'getUserLocation',
-        name: 'getUserLocation',
-        desc: 'Lấy tọa độ kèm địa chỉ thô (Reverse Geocoding).',
-        fn: () => apisAsync.getUserLocation({ enableHighAccuracy: true }),
-      },
-      {
-        id: 'openNativeMap',
-        name: 'openNativeMap',
-        desc: 'Mở ứng dụng bản đồ gốc (Google/Apple Maps).',
-        fn: () => apisAsync.openNativeMap({ lat: 21.0285, lng: 105.8542, label: 'Hồ Hoàn Kiếm' }),
-      },
-      {
-        id: 'captureImage',
-        name: 'captureImage',
-        desc: 'Chụp ảnh trực tiếp từ Camera native.',
-        fn: () => apisAsync.captureImage({ quality: 80 }),
-      },
-      {
-        id: 'setSecureStorage',
-        name: 'setSecureStorage',
-        desc: 'Lưu Token bí mật vào Keychain/Keystore.',
-        fn: () => apisAsync.setSecureStorage({ key: 'secret_token', data: 'TOKEN_123456_ABC' }),
-      },
-      {
-        id: 'getSecureStorage',
-        name: 'getSecureStorage',
-        desc: 'Đọc Token từ vùng lưu trữ bảo mật.',
-        fn: () => apisAsync.getSecureStorage({ key: 'secret_token' }),
-      },
-      {
-        id: 'triggerHapticFeedback',
-        name: 'triggerHapticFeedback',
-        desc: 'Tạo rung phản hồi (Success / Error / Heavy).',
-        fn: async () => {
-          await apisAsync.triggerHapticFeedback({ style: 'success' });
-          await new Promise(r => setTimeout(r, 1000));
-          return apisAsync.triggerHapticFeedback({ style: 'error' });
-        },
-      },
-      {
-        id: 'openInAppBrowser',
-        name: 'openInAppBrowser',
-        desc: 'Mở trình duyệt web bên trong app.',
-        fn: () => apisAsync.openInAppBrowser({
-          url: 'https://365teams.vn',
-          errorMessage: '[WebView] Không thể kết nối tới máy chủ 365Teams.'
-        }),
-      },
-    ],
-  },
-
 ];

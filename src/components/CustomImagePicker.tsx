@@ -45,8 +45,8 @@ const CustomImagePicker: React.FC<CustomImagePickerProps> = ({ open, onClose, on
 
   return (
     <Sheet open={open} onClose={onClose} layout="inset">
-      <SheetHeader title="Thay đổi ảnh đại diện" onClose={onClose} />
-      <SheetBody className="py-6">
+      <SheetHeader className="px-6 py-4" title="Thay đổi ảnh đại diện" onClose={onClose} />
+      <SheetBody className="px-6 py-6">
         <div className="flex flex-col gap-3">
           <button
             onClick={handleCapture}

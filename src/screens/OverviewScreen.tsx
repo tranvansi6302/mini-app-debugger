@@ -15,9 +15,9 @@ import {
 import { Card, StandardPage, Text } from 'ejsc-ma-component';
 
 const quickActions = [
-  { title: 'Components', desc: 'Xem và tái sử dụng UI blocks', icon: Layers3, color: 'text-red-600', bg: 'bg-red-50' },
-  { title: 'APIs', desc: 'Kiểm tra bridge APIs tích hợp', icon: Code2, color: 'text-red-600', bg: 'bg-red-50' },
-  { title: 'Best Practices', desc: 'Chuẩn code cho dự án mini app', icon: BookOpen, color: 'text-red-600', bg: 'bg-red-50' },
+  { title: 'Components', desc: 'Xem và tái sử dụng UI blocks', icon: Layers3, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+  { title: 'APIs', desc: 'Kiểm tra bridge APIs tích hợp', icon: Code2, color: 'text-indigo-600', bg: 'bg-indigo-50' },
+  { title: 'Best Practices', desc: 'Chuẩn code cho dự án mini app', icon: BookOpen, color: 'text-indigo-600', bg: 'bg-indigo-50' },
 ];
 
 const starterSteps = [
@@ -112,7 +112,7 @@ const OverviewScreen: React.FC = () => {
 
           <Card className="p-4 rounded-2xl border border-slate-100 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
             <div className="flex items-center gap-2 mb-3">
-              <ClipboardCheck size={16} className="text-red-600" />
+              <ClipboardCheck size={16} className="text-indigo-600" />
               <Text variant="base" weight="bold">Getting started checklist</Text>
             </div>
 
@@ -121,7 +121,7 @@ const OverviewScreen: React.FC = () => {
                 <div key={step.title} className="rounded-xl border border-slate-100 p-3">
                   <div className="flex items-center justify-between mb-1">
                     <Text variant="base" weight="bold">{idx + 1}. {step.title}</Text>
-                    <span className="w-2 h-2 rounded-full bg-red-500" />
+                    <span className="w-2 h-2 rounded-full bg-indigo-500" />
                   </div>
                   <Text variant="sub" className="text-slate-500">{step.desc}</Text>
                 </div>
@@ -129,7 +129,15 @@ const OverviewScreen: React.FC = () => {
             </div>
           </Card>
 
-
+          <Card className="p-4 rounded-2xl border border-slate-100 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
+            <div className="flex items-center gap-2 mb-2">
+              <BookOpen size={16} className="text-indigo-600" />
+              <Text variant="base" weight="bold">Nội dung đã dùng component chung</Text>
+            </div>
+            <Text variant="sub" className="text-slate-500 leading-relaxed">
+              Trang Overview đã được flow theo component system: StandardPage + Card + Text để đồng bộ với About và UI/UX.
+            </Text>
+          </Card>
         </div>
       </div>
     </StandardPage>

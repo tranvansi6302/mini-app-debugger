@@ -10,30 +10,83 @@
  * MY APP - GLOBAL STYLES & LAYOUT
  */
 
+:root {
+  /* ============================================================
+     EJSC SYSTEM TOKENS (FULL CONFIG A-Z)
+     Thay đổi tại đây để kiểm soát toàn bộ giao diện Component
+     ============================================================ */
+
+  /* 1. Core Colors (Thương hiệu & Trạng thái) */
+  --ejsc-sys-primary: #4b10b9;
+  /* Màu chủ đạo (App đang dùng Tím) */
+  --ejsc-sys-success: #10B981;
+  /* Thành công (Green) */
+  --ejsc-sys-warning: #F59E0B;
+  /* Cảnh báo (Orange/Yellow) */
+  --ejsc-sys-danger: #EF4444;
+  /* Lỗi/Nguy hiểm (Red) */
+  --ejsc-sys-info: #3B82F6;
+  /* Thông tin (Blue) */
+
+  /* 2. Surfaces & Backgrounds (Nền & Bề mặt) */
+  --ejsc-sys-bg-page: #F8FAFC;
+  /* Nền trang (Xám cực nhẹ) */
+  --ejsc-sys-bg-card: #FFFFFF;
+  /* Nền thẻ/nội dung (Trắng) */
+
+  /* 3. Typography (Màu chữ) */
+  --ejsc-sys-text-main: #0F172A;
+  /* Chữ chính (Đen đậm) */
+  --ejsc-sys-text-sub: #64748B;
+  /* Chữ phụ (Xám) */
+
+  /* 4. Borders & Shapes (Viền & Bo góc) */
+  --ejsc-sys-border: #f0f5fb;
+  /* Màu viền chuẩn */
+  --ejsc-sys-radius: 8px;
+  /* Bo góc chủ đạo (Mặc định 8px, App thích 12px) */
+
+  /* 5. Typography Sizes (Kích thước chữ) */
+  --ejsc-sys-font-h1: 2.4rem;
+  /* 24px */
+  --ejsc-sys-font-h2: 2.0rem;
+  /* 20px */
+  --ejsc-sys-font-h3: 1.7rem;
+  /* 17px */
+  --ejsc-sys-font-base: 1.35rem;
+  /* 13.5px */
+  --ejsc-sys-font-sub: 1.5rem;
+  /* 12.5px */
+}
+
 @theme {
-  --ejsc-brand-hex: #F4A261;
+  --ejsc-brand-hex: var(--ejsc-sys-primary);
   --ejsc-radius-unit: 8px;
 
-  --color-ejsc-brand: var(--ejsc-brand-hex);
-  --color-ejsc-bg-page: #ffffff;
-  --color-ejsc-bg-card: #ffffff;
-  --color-ejsc-text-main: #1c1c1e;
+  --color-ejsc-brand: var(--ejsc-sys-primary);
+  --color-ejsc-bg-page: var(--ejsc-sys-bg-page);
+  --color-ejsc-bg-card: var(--ejsc-sys-bg-card);
+  --color-ejsc-text-main: var(--ejsc-sys-text-main);
+  --color-ejsc-text-sub: var(--ejsc-sys-text-sub);
+  --color-ejsc-border: var(--ejsc-sys-border);
+  --color-ejsc-success: var(--ejsc-sys-success);
+  --color-ejsc-warning: var(--ejsc-sys-warning);
+  --color-ejsc-danger: var(--ejsc-sys-danger);
+  --color-ejsc-info: var(--ejsc-sys-info);
 
-  --text-ejsc-h1: 2.4rem;
-  --text-ejsc-h2: 2.0rem;
-  --text-ejsc-h3: 1.7rem;
-  --text-ejsc-h4: 1.5rem;
-  --text-ejsc-base: 1.35rem;
-  --text-ejsc-sub: 1.25rem;
+  --text-ejsc-h1: var(--ejsc-sys-font-h1);
+  --text-ejsc-h2: var(--ejsc-sys-font-h2);
+  --text-ejsc-h3: var(--ejsc-sys-font-h3);
+  --text-ejsc-base: var(--ejsc-sys-font-base);
+  --text-ejsc-sub: var(--ejsc-sys-font-sub);
   --text-ejsc-caption: 1.1rem;
   --text-ejsc-tiny: 1.0rem;
 
-  --font-size-ejsc-h1: 2.4rem;
-  --font-size-ejsc-h2: 2.0rem;
-  --font-size-ejsc-h3: 1.7rem;
-  --font-size-ejsc-h4: 1.5rem;
-  --font-size-ejsc-base: 1.35rem;
-  --font-size-ejsc-sub: 1.25rem;
+  --font-size-ejsc-h1: var(--ejsc-sys-font-h1);
+  --font-size-ejsc-h2: var(--ejsc-sys-font-h2);
+  --font-size-ejsc-h3: var(--ejsc-sys-font-h3);
+  --font-size-ejsc-base: var(--ejsc-sys-font-base);
+  --font-size-ejsc-sub: var(--ejsc-sys-font-sub);
   --font-size-ejsc-caption: 1.1rem;
   --font-size-ejsc-tiny: 1.0rem;
 }
@@ -83,9 +136,19 @@
     background: var(--color-ejsc-bg-page);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    /* Tối ưu GPU: Tạo layer riêng và hint trình duyệt không cần render nội dung ngoài khung hình */
+    will-change: scroll-position;
+    contain: paint;
   }
 
   .page-content::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Force GPU for components that are often animated */
+  .gpu-layer {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
   }
 }
