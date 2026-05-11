@@ -53,7 +53,7 @@ const OverviewScreen: React.FC = () => {
 
         <div
           className="relative z-10 px-4 pb-8 flex flex-col gap-5"
-          style={{ paddingTop: 'calc(var(--safe-top, env(safe-area-inset-top, 0px)) + 16px)' }}
+          style={{ paddingTop: 'calc(var(--safe-top, env(safe-area-inset-top, 0px)) + 70px)' }}
         >
           <section className="rounded-3xl border border-white/30 bg-white/10 backdrop-blur-md p-5 text-white shadow-[0_10px_30px_rgba(15,23,42,0.2)]">
             <div className="flex items-start justify-between gap-3 mb-3">
@@ -126,6 +126,37 @@ const OverviewScreen: React.FC = () => {
                   <Text variant="sub" className="text-slate-500">{step.desc}</Text>
                 </div>
               ))}
+            </div>
+          </Card>
+
+          <Card className="p-4 rounded-2xl border border-slate-100 shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
+            <Text variant="base" weight="bold" className="mb-3">Thử nghiệm DeepLink (Liên kết App)</Text>
+            <Text variant="sub" className="text-slate-500 mb-4 block">
+              Mở các Mini App khác bằng ID tương ứng để kiểm tra luồng chuyển hướng.
+            </Text>
+            <div className="grid gap-3">
+              <button
+                className="w-full flex items-center gap-3 rounded-xl border border-slate-100 px-3 py-2.5 text-left active:scale-[0.99] transition-transform"
+                onClick={() => (window as any).ejsc.openDeeplink({ url: 'ejsc://mini-apps/mini-app-1112', title: 'Mini App 1' })}
+              >
+                <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center font-bold text-purple-600">1</div>
+                <div className="flex-1">
+                  <Text variant="base" weight="bold">Mở Mini App 1</Text>
+                  <Text variant="sub" className="text-slate-500">Debugger & Test Bridge</Text>
+                </div>
+                <ChevronRight size={16} className="text-slate-300" />
+              </button>
+              <button
+                className="w-full flex items-center gap-3 rounded-xl border border-slate-100 px-3 py-2.5 text-left active:scale-[0.99] transition-transform"
+                onClick={() => (window as any).ejsc.openDeeplink({ url: 'ejsc://mini-apps/mini-app-2', title: 'Mini App 2' })}
+              >
+                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center font-bold text-blue-600">2</div>
+                <div className="flex-1">
+                  <Text variant="base" weight="bold">Mở Mini App 2</Text>
+                  <Text variant="sub" className="text-slate-500">Demo Store (Vercel)</Text>
+                </div>
+                <ChevronRight size={16} className="text-slate-300" />
+              </button>
             </div>
           </Card>
 

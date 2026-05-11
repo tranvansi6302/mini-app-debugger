@@ -2,12 +2,15 @@
  * @file router-config.ts
  * @description Cấu hình Router tinh giản bao gồm HomeScreen và các trang khác.
  */
-import HomeScreen from '../screens/HomeScreen';
-import OverviewScreen from '../screens/OverviewScreen';
+// HomeScreen giữ nguyên file nhưng không dùng trong router hiện tại
+// import HomeScreen from '../screens/HomeScreen';
+import OverviewScreen from '../screens/OverviewScreen'; // Giữ nguyên, không xóa
+import DeepLinkHomeScreen from '../screens/DeepLinkHomeScreen';
 import AboutScreen from '../screens/AboutScreen';
 import ApiScreen from '../screens/ApiScreen';
-import UiUxScreen from '../screens/UiUxScreen';
-import LoginScreen from '../screens/LoginScreen';
+import SwitchAppScreen from '../screens/SwitchAppScreen';
+import AccountScreen from '../screens/AccountScreen';
+import LoginScreen from '../screens/LoginScreen'; // giữ nguyên file
 import React from 'react';
 
 export type AnimationType = 'none' | 'slide_left' | 'slide_up' | 'fade_in';
@@ -49,17 +52,12 @@ export const getRouterConfig = (): IRouterConfig => ({
   pages: [
     {
       pathname: '/',
-      Component: HomeScreen,
+      Component: DeepLinkHomeScreen, // OverviewScreen cũ vẫn giữ nguyên
       animation: 'none',
       appBar: { type: 'custom' },
       showAppBar: false
     },
-    {
-      pathname: '/overview',
-      Component: OverviewScreen,
-      animation: 'slide_left',
-      appBar: { type: 'native', title: 'Overview', backIcon: 'none' }
-    },
+
     {
       pathname: '/api',
       Component: ApiScreen,
@@ -68,8 +66,8 @@ export const getRouterConfig = (): IRouterConfig => ({
       showAppBar: false
     },
     {
-      pathname: '/ui-ux',
-      Component: UiUxScreen,
+      pathname: '/switch-app',
+      Component: SwitchAppScreen,
       animation: 'none',
       appBar: { type: 'custom' },
       showAppBar: false
@@ -78,6 +76,13 @@ export const getRouterConfig = (): IRouterConfig => ({
       pathname: '/about',
       Component: AboutScreen,
       animation: 'none',
+      appBar: { type: 'custom' },
+      showAppBar: false
+    },
+    {
+      pathname: '/account',
+      Component: AccountScreen,
+      animation: 'slide_left',
       appBar: { type: 'custom' },
       showAppBar: false
     },
@@ -92,11 +97,10 @@ export const getRouterConfig = (): IRouterConfig => ({
   ],
   bottomTabBar: {
     items: [
-      { id: 'home', name: 'Trang chủ', path: '/', icon: 'home' },
-      { id: 'overview', name: 'Overview', path: '/overview', icon: 'grid' },
+      { id: 'overview', name: 'Home', path: '/', icon: 'link' },
       { id: 'api', name: 'APIs', path: '/api', icon: 'code' },
-      { id: 'ui-ux', name: 'UI/UX', path: '/ui-ux', icon: 'sparkles' },
       { id: 'about', name: 'About', path: '/about', icon: 'circle-info' },
+      { id: 'account', name: 'Tài khoản', path: '/account', icon: 'user' },
     ]
   }
 });

@@ -1,69 +1,71 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('./assets/fonts/SFProDisplay-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('./assets/fonts/SFProDisplay-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('./assets/fonts/SFProDisplay-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('./assets/fonts/SFProDisplay-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
 @import "tailwindcss";
 
-/**
- * SAFELIST FOR COMPONENT TEXT VARIANTS:
- * text-ejsc-h1 text-ejsc-h2 text-ejsc-h3 text-ejsc-h4 text-ejsc-base text-ejsc-sub text-ejsc-caption text-ejsc-tiny
- */
-
-/**
- * MY APP - GLOBAL STYLES & LAYOUT
- */
-
 :root {
-  /* ============================================================
-     EJSC SYSTEM TOKENS (FULL CONFIG A-Z)
-     Thay đổi tại đây để kiểm soát toàn bộ giao diện Component
-     ============================================================ */
+  /* 1. Core Colors - Emerald for App 1 */
+  --ejsc-sys-primary: #10B981; 
 
-  /* 1. Core Colors (Thương hiệu & Trạng thái) */
-  --ejsc-sys-primary: #4b10b9;
-  /* Màu chủ đạo (App đang dùng Tím) */
   --ejsc-sys-success: #10B981;
-  /* Thành công (Green) */
   --ejsc-sys-warning: #F59E0B;
-  /* Cảnh báo (Orange/Yellow) */
   --ejsc-sys-danger: #EF4444;
-  /* Lỗi/Nguy hiểm (Red) */
   --ejsc-sys-info: #3B82F6;
-  /* Thông tin (Blue) */
 
-  /* 2. Surfaces & Backgrounds (Nền & Bề mặt) */
-  --ejsc-sys-bg-page: #F8FAFC;
-  /* Nền trang (Xám cực nhẹ) */
+  /* 2. Surfaces & Backgrounds */
+  --ejsc-sys-bg-page: #ffffff;
   --ejsc-sys-bg-card: #FFFFFF;
-  /* Nền thẻ/nội dung (Trắng) */
 
-  /* 3. Typography (Màu chữ) */
-  --ejsc-sys-text-main: #0F172A;
-  /* Chữ chính (Đen đậm) */
+  /* 3. Typography */
+  --ejsc-sys-text-main: #374151;
   --ejsc-sys-text-sub: #64748B;
-  /* Chữ phụ (Xám) */
+  --ejsc-sys-text-placeholder: #9CA3AF;
 
-  /* 4. Borders & Shapes (Viền & Bo góc) */
+  /* 4. Borders & Shapes */
   --ejsc-sys-border: #f0f5fb;
-  /* Màu viền chuẩn */
   --ejsc-sys-radius: 8px;
-  /* Bo góc chủ đạo (Mặc định 8px, App thích 12px) */
 
-  /* 5. Typography Sizes (Kích thước chữ) */
+  /* 5. Typography Sizes */
   --ejsc-sys-font-h1: 2.4rem;
-  /* 24px */
   --ejsc-sys-font-h2: 2.0rem;
-  /* 20px */
   --ejsc-sys-font-h3: 1.7rem;
-  /* 17px */
   --ejsc-sys-font-base: 1.35rem;
-  /* 13.5px */
-  --ejsc-sys-font-sub: 1.5rem;
-  /* 12.5px */
+  --ejsc-sys-font-sub: 1.25rem;
+  --ejsc-sys-font-caption: 1.15rem;
 }
 
 @theme {
   --ejsc-brand-hex: var(--ejsc-sys-primary);
-  --ejsc-radius-unit: 8px;
+  --ejsc-brand-sub-hex: #064E3B; 
+  --ejsc-radius-unit: var(--ejsc-sys-radius);
 
   --color-ejsc-brand: var(--ejsc-sys-primary);
+  --color-ejsc-brand-sub: var(--ejsc-brand-sub-hex);
   --color-ejsc-bg-page: var(--ejsc-sys-bg-page);
   --color-ejsc-bg-card: var(--ejsc-sys-bg-card);
   --color-ejsc-text-main: var(--ejsc-sys-text-main);
@@ -87,8 +89,10 @@
   --font-size-ejsc-h3: var(--ejsc-sys-font-h3);
   --font-size-ejsc-base: var(--ejsc-sys-font-base);
   --font-size-ejsc-sub: var(--ejsc-sys-font-sub);
-  --font-size-ejsc-caption: 1.1rem;
+  --font-size-ejsc-caption: var(--ejsc-sys-font-caption);
   --font-size-ejsc-tiny: 1.0rem;
+
+  --radius-ejsc: var(--ejsc-sys-radius);
 }
 
 @layer base {
@@ -97,6 +101,7 @@
     height: 100%;
     width: 100%;
     overflow: hidden;
+    overscroll-behavior: none;
   }
 
   body,
@@ -108,12 +113,12 @@
     padding: 0;
     background-color: var(--color-ejsc-bg-page);
     color: var(--color-ejsc-text-main);
-    font-family: 'Inter', -apple-system, sans-serif;
+    font-family: 'SF Pro Display', -apple-system, sans-serif;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
   }
 
-  /* KHÔI PHỤC LAYOUT FRAMEWORK VỚI ĐỘ ƯU TIÊN CAO */
   .app-layout {
     display: flex;
     flex-direction: column;
@@ -136,8 +141,8 @@
     background: var(--color-ejsc-bg-page);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    /* Tối ưu GPU: Tạo layer riêng và hint trình duyệt không cần render nội dung ngoài khung hình */
-    will-change: scroll-position;
+    overscroll-behavior-y: contain;
+    scroll-padding-bottom: calc(12rem + env(safe-area-inset-bottom, 0px));
     contain: paint;
   }
 
@@ -145,10 +150,24 @@
     display: none;
   }
 
-  /* Force GPU for components that are often animated */
   .gpu-layer {
     transform: translateZ(0);
     backface-visibility: hidden;
+    perspective: 1000;
     will-change: transform, opacity;
+  }
+
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  /* Force remove all shadows for a clean flat look */
+  header, [class*="app-bar"], .ejsc-app-bar {
+    box-shadow: none !important;
+    border-bottom: none !important;
+  }
+
+  .ejsc-card, [class*="card"] {
+    box-shadow: none !important;
   }
 }
